@@ -1,30 +1,21 @@
 //importing modules
-import  {Schema, model,} from 'mongoose'
+import  {Schema, model} from 'mongoose'
 import Joi from 'joi'
+import {IPost} from '../Interfaces/IPost'
 
 //validation schema
-export const PostschemaValidate = Joi.object({
+export const PostschemaValidate = Joi.object({ 
     title: Joi.string().required(),
     description: Joi.string().required(),
     author: Joi.string().required(),
     published: Joi.boolean().required(),
-
 })
 
-//creating an interface 
-interface IPosts {
-    title: string,
-    description: string,
-    author: string,
-    published: boolean,
-
-}
 
 //Postschema
-const postSchema = new Schema<IPosts>({
+const postSchema = new Schema<IPost>({
     title: {
         type: String,
-        
     },
 
     description: {
@@ -41,9 +32,8 @@ const postSchema = new Schema<IPosts>({
         required: true,
         default: false
     },
-
     
 })
 
 //creating a model
- export const Post = model<IPosts>('Post', postSchema )
+ export const Post = model<IPost>('Post', postSchema )

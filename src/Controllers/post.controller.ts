@@ -1,9 +1,30 @@
-//import modules
-import { postServices } from '../Services/post.service'
+import { PostService } from '../Services/post.service'
 import { Request, Response } from 'express'
-import {PostschemaValidate} from '../Models/posts'
+import { PostschemaValidate } from '../Models/posts'
+import { injectable, inject } from 'inversify'
+import { TYPES } from "../types" // used in inversify
 
+@injectable() // that is called as decorator-annotation
 class postController {
+    private service: PostService;
+
+    constructor(@inject(TYPES.service) service: PostService) { // constructor injection
+        this.service = service
+    }
+
+    //get all posts
+    getPosts = async (req: Request, res: Response) => { // non-blocking approach
+        const posts = await this.service.getPosts()
+        res.send(posts)
+    }
+
+    //get a single post
+    getAPost = async (req: Request, res: Response) => { // when the asycn task is finished fires a callback function
+        const id = req.params.id // extract id from the link
+        const post = await this.service.getPost(id)
+        res.send(post)
+    }
+
     //add post controller
     addpost = async (req: Request, res: Response) => {
         //data to be saved in database
@@ -14,50 +35,31 @@ class postController {
             published: req.body.published
         }
         //validating the request
-        const {error, value} = PostschemaValidate.validate(data)
+        const { error, value } = PostschemaValidate.validate(data)
 
-        if(error){
+        if (error) {
             res.send(error.message)
-
-        }else{
+        } else {
             //call the create post function in the service and pass the data from the request
-            const post = await postServices.createPost(value)
-            res.status(201).send(post)          
+            const post = await this.service.createPost(value)
+            res.status(201).send(post) // status is set to ok
         }
-        
-    }
-
-    //get all posts
-    getPosts = async (req: Request, res: Response) => {
-        const posts = await postServices.getPosts()
-        res.send(posts)
-    }
-
-
-    //get a single post
-    getAPost = async (req: Request, res: Response) => {
-        //get id from the parameter
-        const id = req.params.id
-        const post = await postServices.getPost(id)
-        res.send(post)
     }
 
     //update post
     updatePost = async (req: Request, res: Response) => {
         const id = req.params.id
-       const post = await postServices.updatePost(id, req.body)  
+        const post = await this.service.updatePost(id, req.body)
         res.send(post)
     }
-
 
     //delete a post
     deletePost = async (req: Request, res: Response) => {
         const id = req.params.id
-        await postServices.deletePost(id)
+        await this.service.deletePost(id)
         res.send('post deleted')
     }
-
 }
 
 //export class
-export const PostController = new postController()
+export { postController } // const postController = new postController()

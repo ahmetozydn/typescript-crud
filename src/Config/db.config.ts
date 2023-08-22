@@ -1,17 +1,13 @@
-//importing modules
-import dotenv from 'dotenv'
-import mongoose from 'mongoose'
+import 'dotenv/config' // module to read .env files
+import mongoose from 'mongoose' // object document mapping module
 
-dotenv.config()
-
-  //details from the env
-const username = process.env.username
-const password = process.env.password
-const dbName = 'Post'
-
-//connection string to mongo atlas
-
-const connectionString = `mongodb+srv://${username}:${password}@cluster0.tjh8e.mongodb.net/${dbName}?retryWrites=true&w=majority`
+const connectionString = process.env.CONNSTRING
+/*
+  Avoid hard-coding sensitive information,
+  Don't forget to add senitive files to .gitignore,
+  Environment variables can be only reached from the process' itself
+*/ 
+console.log(process.env.example);
 
 const options = {
     autoIndex: false, // Don't build indexes
@@ -21,14 +17,14 @@ const options = {
     family: 4 // Use IPv4, skip trying IPv6
   };
 
-//db connection
-export const db = mongoose.connect(connectionString, options)
-.then(res => {
-    if(res){
-        console.log(`Database connection succeffully to ${dbName}`)
-    }
-    
-}).catch(err => {
-    console.log(err)
-})
 
+
+//db connection
+export const db = mongoose.connect('mongodb://127.0.0.1:27017/', options) // the connection string is not undefined
+  .then(res => {
+      if(res){
+          console.log(`Database connection id succeffully created.`)
+      }
+  }).catch(err => {
+      console.log(err) // implement a error-handling mechanism
+  })

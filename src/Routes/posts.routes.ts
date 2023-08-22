@@ -1,22 +1,18 @@
 //importing modules
 import express from "express";
-import { PostController } from '../Controllers/post.controller'
+import { postController } from '../Controllers/post.controller'
+import { myContainer } from "../iversify.config";
+import { TYPES } from "../types";
 
-//initiating the router
+//initiating the router, express is a framework like springboot in java
 export const router = express.Router()
+// holds the registered dependencies and manages their creation and resolution
+const controller = myContainer.get<postController>(TYPES.controller);
 
-//add post route
-router.post('/',PostController.addpost)
 
-//get posts
-router.get('/', PostController.getPosts)
-
-//get single post
-router.get('/:id', PostController.getAPost)
-
-//update a post
-router.put('/:id', PostController.updatePost)
-
-//delete a post
-router.delete('/:id', PostController.deletePost)
-
+// routing after /api/posts
+router.post('/',controller.addpost) // the same URL can have multiple HTTP methods
+router.get('/', controller.getPosts)
+router.get('/:id', controller.getAPost) // query parametres uses ?=id 
+router.put('/:id', controller.updatePost)
+router.delete('/:id', controller.deletePost)
