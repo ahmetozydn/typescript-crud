@@ -1,14 +1,11 @@
 import {IRepository} from '../Interfaces/IRepository'
-import {IPost} from '../Interfaces/IPost'
 import { injectable } from 'inversify'
 import { Post } from '../Models/posts'
 import "reflect-metadata";
-import { resolve } from 'path';
-import { rejects } from 'assert';
 
 // business layer
 @injectable() // decorator
-export class PostService implements IRepository{
+class PostService implements IRepository{
     
     //get all posts
     async getPosts() { // asynchronous func.
@@ -27,7 +24,6 @@ export class PostService implements IRepository{
             if (!post) {
                 return 'post not available'
             }
-           //return post    
            return post
         } catch (error) {
             console.log(error)
@@ -73,7 +69,4 @@ export class PostService implements IRepository{
     }
 }
 
-//export the class
-//export const postServices = new PostService()
-
-exports = PostService
+export { PostService } 

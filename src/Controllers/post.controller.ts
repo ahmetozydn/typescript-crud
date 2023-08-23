@@ -2,11 +2,11 @@ import { PostService } from '../Services/post.service'
 import { Request, Response } from 'express'
 import { PostschemaValidate } from '../Models/posts'
 import { injectable, inject } from 'inversify'
-import { TYPES } from "../types" // used in inversify
+import { TYPES } from "../DI/types" // used in inversify
 
 @injectable() // that is called as decorator-annotation
-class postController {
-    private service: PostService;
+class PostController {
+    private service: PostService; // there is no private modifier in JS 
 
     constructor(@inject(TYPES.service) service: PostService) { // constructor injection
         this.service = service
@@ -19,7 +19,7 @@ class postController {
     }
 
     //get a single post
-    getAPost = async (req: Request, res: Response) => { // when the asycn task is finished fires a callback function
+    getAPost = async (req: Request, res: Response) => { // when the async task is finished fires a callback function
         const id = req.params.id // extract id from the link
         const post = await this.service.getPost(id)
         res.send(post)
@@ -61,5 +61,4 @@ class postController {
     }
 }
 
-//export class
-export { postController } // const postController = new postController()
+export { PostController } 

@@ -1,12 +1,4 @@
-import { IPost } from './IPost'
-// handles db connections, transactions, sessions
-import { Document, Types } from 'mongoose'
-import { returnType, getPostsReturnType } from '../types'
-
-/* type returnType = 
-  | (Document<unknown, any, IPost> & IPost & { _id: Types.ObjectId; })
-  | "post not available"
-  | undefined; */
+import { returnType, getPostsReturnType } from '../DI/types'
 
 export interface IRepository {
     getPosts(): getPostsReturnType
