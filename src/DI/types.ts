@@ -13,4 +13,6 @@ type CommonType = Document<unknown, any, IPost> & IPost & {
   }
 export type getPostsReturnType = Promise<CommonType[] | undefined>
 
+export type resultType = CommonType[]
+
 export type  returnType = Promise<CommonType | string | undefined>

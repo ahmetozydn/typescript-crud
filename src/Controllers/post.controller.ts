@@ -3,6 +3,11 @@ import { Request, Response } from 'express'
 import { PostschemaValidate } from '../Models/posts'
 import { injectable, inject } from 'inversify'
 import { TYPES } from "../DI/types" // used in inversify
+import { IResult } from '../Interfaces/IResult'
+import { resourceLimits } from 'worker_threads'
+
+
+
 
 @injectable() // that is called as decorator-annotation
 class PostController {
@@ -22,6 +27,9 @@ class PostController {
     getAPost = async (req: Request, res: Response) => { // when the async task is finished fires a callback function
         const id = req.params.id // extract id from the link
         const post = await this.service.getPost(id)
+        if (!post) {
+            return res.status(404).json({ message: 'Post not found' });
+        }
         res.send(post)
     }
 
@@ -58,6 +66,19 @@ class PostController {
         const id = req.params.id
         await this.service.deletePost(id)
         res.send('post deleted')
+    }
+
+    //pagination
+    getPaginated = async (req: Request, res: Response) => {
+        const limit = 5; 
+        const answer: IResult | string = await this.service.getChunk(req.query.pi, limit);
+
+        const isString = typeof answer;
+
+        if (isString === 'string') { // if an error message is returned
+            return res.status(400).json({ message: answer })
+        }
+        return res.status(200).json(answer)
     }
 }
 

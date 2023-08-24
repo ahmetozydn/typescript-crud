@@ -6,4 +6,5 @@ export interface IRepository {
     createPost(data: any): returnType
     updatePost(id: String, data: any): returnType
     deletePost(id: String): void
+    getChunk(pageIndex: any, limit: number): void // pagination
 }

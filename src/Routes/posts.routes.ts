@@ -9,8 +9,8 @@ export const router = express.Router()
 // holds the registered dependencies and manages their creation and resolution
 const controller = diContainer.get<PostController>(TYPES.controller);
 
-
 // sub-routes after /api/posts
+router.get('/pagination', controller.getPaginated)
 router.post('/',controller.addpost) // the same URL can have multiple HTTP methods
 router.get('/', controller.getPosts)
 router.get('/:id', controller.getAPost) // query parametres uses ?=id 

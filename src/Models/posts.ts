@@ -11,7 +11,6 @@ export const PostschemaValidate = Joi.object({
     published: Joi.boolean().required(),
 })
 
-
 //Postschema
 const postSchema = new Schema<IPost>({
     title: {
@@ -32,7 +31,7 @@ const postSchema = new Schema<IPost>({
         required: true,
         default: false
     },
-    
+    createdAt: { type: Date, default: Date.now }
 })
 
 //creating a model

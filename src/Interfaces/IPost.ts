@@ -3,4 +3,5 @@ export interface IPost {
     description: string,
     author: string,
     published: boolean,
+    createdAt: Date,
 }
