@@ -40,7 +40,6 @@
 ### Installation
 
 ```bash
-# Example installation commands
 git clone https://github.com/ahmetozydn/typescript-crud.git
 cd yourproject
 npm install
@@ -62,3 +61,20 @@ _update post_
 ![update image](./ss/update.png)
 _delete post_
 ![delete image](./ss/delete.png)
+_pagination_
+![delete image](./ss/pagination.png)
+
+
+### Further topics
+
+- [ ] Architecture improvement
+- [ ] Generating dynamic di for pagination class
+- [ ] Custom error handler mechanism
+- [ ] Authentication, authorization
+- [ ] Data filtering, patch method, sorting
+- [ ] Rate limiting, caching
+- [ ] Handling file uploads through API endpoints.
+- [ ] Understanding CORS and configuring it for your API.
+- [ ] Support for multiple languages and locales.
+
+

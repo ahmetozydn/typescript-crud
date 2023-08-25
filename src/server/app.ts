@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }))
 
 //redirect to sub-routes 
 app.use('/api/posts', router)
-app.use('/', pageNotFound)
+ app.use('/', pageNotFound) 
 
 //db connection then server connection
 db.then(() => {

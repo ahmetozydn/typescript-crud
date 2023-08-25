@@ -1,10 +1,11 @@
 import { PostService } from '../Services/post.service'
-import { Request, Response } from 'express'
 import { PostschemaValidate } from '../Models/posts'
 import { injectable, inject } from 'inversify'
-import { TYPES } from "../DI/types" // used in inversify
+import { TYPES, SORT_OPT } from "../DI/types" // used in inversify
 import { IResult } from '../Interfaces/IResult'
 import { resourceLimits } from 'worker_threads'
+import { Express, Request, Response } from 'express';
+
 
 
 
@@ -19,8 +20,21 @@ class PostController {
 
     //get all posts
     getPosts = async (req: Request, res: Response) => { // non-blocking approach
-        const posts = await this.service.getPosts()
-        res.send(posts)
+        const sortParam = req.query.sort;
+        const isValid = this.isValidSortOption(sortParam)
+
+
+        if (typeof sortParam === 'string' && isValid) {
+            const answer = await this.service.sort(sortParam)
+
+        }
+
+        const posts = await this.service.getPosts();
+        res.send(posts);
+    }
+
+    isValidSortOption(value: any): value is SORT_OPT {
+        return Object.values(SORT_OPT).includes(value);
     }
 
     //get a single post
@@ -69,9 +83,16 @@ class PostController {
     }
 
     //pagination
-    getPaginated = async (req: Request, res: Response) => {
-        const limit = 5; 
-        const answer: IResult | string = await this.service.getChunk(req.query.pi, limit);
+    getChunk = async (req: Request, res: Response) => {
+        const limit = 5;
+
+        const queryPool = {
+            sortType: req.sortType,
+            pageIndex: req.pageIndex,
+            orderBy: req.orderBy
+        }
+
+        const answer: IResult | undefined = await this.service.getChunk(queryPool, limit);
 
         const isString = typeof answer;
 
@@ -79,6 +100,12 @@ class PostController {
             return res.status(400).json({ message: answer })
         }
         return res.status(200).json(answer)
+    }
+    //update post
+    patchPost = async (req: Request, res: Response) => {
+        const id = req.params.id
+        const post = await this.service.patchUpdate(id, req.body)
+        res.send(post)
     }
 }
 

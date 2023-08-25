@@ -16,3 +16,10 @@ export type getPostsReturnType = Promise<CommonType[] | undefined>
 export type resultType = CommonType[]
 
 export type  returnType = Promise<CommonType | string | undefined>
+
+export enum SORT_OPT{
+  author = "author",
+  description ="description",
+  title = "title"
+}
+
