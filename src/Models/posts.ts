@@ -34,5 +34,10 @@ const postSchema = new Schema<IPost>({
     createdAt: { type: Date, default: Date.now }
 })
 
+postSchema.index({title: 'text', description: 'text', author: 'text'}); // for search operation
+
+
+
 //creating a model
  export const Post = model<IPost>('Post', postSchema )
+ Post.createIndexes();

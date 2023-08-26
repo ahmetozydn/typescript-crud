@@ -71,7 +71,8 @@ _pagination_
 - [ ] Generating dynamic di for pagination class
 - [ ] Custom error handler mechanism
 - [ ] Authentication, authorization
-- [ ] Data filtering, patch method, sorting
+- [ ] Data filtering
+- [ ] Partial searching method for MongoDB because it doesn't provide efficient way
 - [ ] Rate limiting, caching
 - [ ] Handling file uploads through API endpoints.
 - [ ] Understanding CORS and configuring it for your API.

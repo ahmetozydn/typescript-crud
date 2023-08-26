@@ -1,10 +1,12 @@
 import { PostService } from '../Services/post.service'
-import { PostschemaValidate } from '../Models/posts'
+import { Post, PostschemaValidate } from '../Models/posts'
 import { injectable, inject } from 'inversify'
 import { TYPES, SORT_OPT } from "../DI/types" // used in inversify
 import { IResult } from '../Interfaces/IResult'
 import { resourceLimits } from 'worker_threads'
 import { Express, Request, Response } from 'express';
+import { NextFunction } from 'express-serve-static-core'
+import { error } from 'console'
 
 
 
@@ -24,10 +26,6 @@ class PostController {
         const isValid = this.isValidSortOption(sortParam)
 
 
-        if (typeof sortParam === 'string' && isValid) {
-            const answer = await this.service.sort(sortParam)
-
-        }
 
         const posts = await this.service.getPosts();
         res.send(posts);
@@ -106,6 +104,20 @@ class PostController {
         const id = req.params.id
         const post = await this.service.patchUpdate(id, req.body)
         res.send(post)
+    }
+    search = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const queryPool = {
+                sortType: req.sortType,
+                pageIndex: req.pageIndex,
+                orderBy: req.orderBy
+            }
+            const query = req.query.q as string
+            console.log(req.query.q);
+            
+            const answer = await this.service.search(query, queryPool)
+                return res.status(200).json(answer)
+        } catch (error) { console.log(error) }
     }
 }
 

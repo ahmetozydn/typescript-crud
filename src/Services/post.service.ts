@@ -71,7 +71,7 @@ class PostService implements IRepository {
             console.log(error)
         }
     }
-    
+
     async patchUpdate(id: string, data: any) {
         try {
             const updatedOne = await Post.updateOne(
@@ -107,34 +107,34 @@ class PostService implements IRepository {
             posts: items
         }
         return result
-
-
-        /*      const isParamValid = await pagination.isParamValid() // check if the page-index is defined or invalid
-     
-             if (isParamValid == "undefined") {
-                 return 'Undefined page number'
-             } else if (isParamValid == "invalid") {
-                 return 'Invalid page number requested.'
-             }
-             const result = await pagination.getPage();
-             
-             return result */
     }
-    async sort(value: string) {
 
-        /*         if(value == SORT_OPT.author){
-                    const items = await Post.find()
-                    .sort({ author: -1 })
-                    .skip((this.pageIndex - 1) * this.limit)
-                    .limit(this.limit);
-                }
-                if(value == SORT_OPT.title){
-                    
-                }
-                if(value == SORT_OPT.description){
-        
-                }    */
+    async search(q: string, queryPool: {
+        sortType: string,
+        pageIndex: number,
+        orderBy: 1 | -1
+    }, limit: number = 2) {
+        try {
+            console.log(q)
+
+            // that's a exact string match solution, mongoDB doesn't support partial match search but can be found solutions...
+            const answer = await Post.find({ $text: { $search: q, $caseSensitive: true } }) 
+                .skip((queryPool.pageIndex - 1) * limit)
+                .limit(limit)
+
+            const result: IResult = {
+                total: answer.length,
+                limit: limit,
+                posts: answer
+            }
+
+
+            return result
+        } catch (error) { console.log(error) }
     }
+
+
 }
+
 
 export { PostService } 
