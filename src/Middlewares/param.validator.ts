@@ -14,7 +14,13 @@ declare global {
       interface Request {
         pageIndex: number,
         sortType: string,
-        orderBy: 1 | -1
+        orderBy: 1 | -1,
+        filter:  {
+            likes: {
+                $gte: number;
+                $lte: number;
+            };
+        }
       }
     }
   }
@@ -52,6 +58,26 @@ export const orderByParamChecker =  async (req:Request,res:Response,next:NextFun
     if(sortOrder){
         console.log("orderby is valid.")
          req.orderBy = sortOrder
+    }
+    next();
+}
+
+export const filterChecker =  async (req:Request,res:Response,next:NextFunction)=>{
+    console.log("inside orderby")
+    const expression = req.query.filter as string; 
+
+    if(expression){
+        console.log("expression exist")
+        const numbers = expression.match(/\d+/g);
+        if(numbers !== null){
+            console.log("number exist")
+            const [minLikes, maxLikes] = numbers;
+            console.log(minLikes, maxLikes);
+            const filter = {
+                likes: { $gte: parseInt(minLikes), $lte: parseInt(maxLikes) }
+            };
+            req.filter = filter
+        }
     }
     next();
 }

@@ -87,7 +87,8 @@ class PostController {
         const queryPool = {
             sortType: req.sortType,
             pageIndex: req.pageIndex,
-            orderBy: req.orderBy
+            orderBy: req.orderBy,
+            filter: req.filter
         }
 
         const answer: IResult | undefined = await this.service.getChunk(queryPool, limit);

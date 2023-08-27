@@ -3,7 +3,7 @@ import { error } from 'console';
 import { PostController } from '../Controllers/post.controller'
 import { diContainer } from "../DI/iversify.config";
 import { TYPES } from "../DI/types";
-import { pageIndexChecker, sortParamChecker, orderByParamChecker } from "../Middlewares/param.validator";
+import { pageIndexChecker, sortParamChecker, orderByParamChecker, filterChecker } from "../Middlewares/param.validator";
 import express from 'express';
 import { Express, Request, Response } from 'express';
 
@@ -13,7 +13,7 @@ export const router = express.Router()
 // holds the registered dependencies and manages their creation and resolution
 const controller = diContainer.get<PostController>(TYPES.controller);
 
-const middlewares = [pageIndexChecker, sortParamChecker, orderByParamChecker]; // should they combined
+const middlewares = [pageIndexChecker, sortParamChecker, orderByParamChecker, filterChecker]; // should they combined
 
 // sub-routes after /api/posts
 router.get('/pagination', middlewares, controller.getChunk)

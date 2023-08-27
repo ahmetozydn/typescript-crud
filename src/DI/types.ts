@@ -20,6 +20,7 @@ export type  returnType = Promise<CommonType | string | undefined>
 export enum SORT_OPT{
   author = "author",
   description ="description",
-  title = "title"
+  title = "title",
+  likes = "likes"
 }
 

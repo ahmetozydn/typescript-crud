@@ -25,13 +25,22 @@
 
 ### Features
 
-- _Establishing a MongoDB connection and transactions with mongoose,_
-- _Route handling mechanism using Express.js framework,_
-- _Interface, enum, type alias, static typing, access modifiers usage,_
-- _Dependency injection using Inversify,_
-- _Using Repository-MVC pattern_
+- [x] _Establishing a MongoDB connection and transactions with mongoose ODM,_
+- [x] _Route handling mechanism using Express.js framework,_
+- [x] _Interface, enum, type alias, static typing, access modifiers, default parametre usage,_
+- [x] _Dependency injection using Inversify,_
+- [x] _Using Repository-MVC pattern,_
+- [x] _Exact string match search like `?search=text%20most`,_
+- [x] _Data filtering like `?filter=likes:2-10`,_
+- [x] _Pagination `?pi=2`,_
+- [x] _Sorting for fields `?sort=likes&orderby=asc` | `?sort=title&orderby=desc` | `sort=author&orderby=desc`,_
+- [x] _Query combination-query pool;_
 
-
+`?sort=description&pi=3`
+`?sort=title&orderby=desc&pi=2`
+`?q=find%20me&sort=author&orderby=asc&pi=2`
+`?sort=likes&orderby=asc&filter=likes:3-24&pi=2`
+`?sort=description&orderby=descpription&filter=likes:3-10&pi=1`
 
 ### Architecture
 
@@ -43,7 +52,7 @@
 git clone https://github.com/ahmetozydn/typescript-crud.git
 cd yourproject
 npm install
-# After making your own MongoDB connection
+# After establishing your MongoDB connection!
 npm start
 ```
 
@@ -51,31 +60,32 @@ npm start
 
 - `postman` is used to test endpoints.
 
-_get all posts_
-![getall image](./ss/getall.png)
-_get a post_
-![getapost image](./ss/getone.png)
-_create a post_
-![create image](./ss/create.png)
-_update post_
-![update image](./ss/update.png)
-_delete post_
-![delete image](./ss/delete.png)
+- Query Combination;
+
 _pagination_
 ![delete image](./ss/pagination.png)
+
+- CRUD operations;
+
+|get a post|delete a post|
+|---|---|
+|![get all posts image](./ss/ss_getone.png)|![delete a post image](./ss/ss_delete.png)|
+
+|get all posts|create a post|
+|---|---|
+|![get all posts image](./ss/ss_getall.png)|![create a post image](./ss/ss_create.png)|
+
+
 
 
 ### Further topics
 
 - [ ] Architecture improvement
-- [ ] Generating dynamic di for pagination class
-- [ ] Custom error handler mechanism
-- [ ] Authentication, authorization
-- [ ] Data filtering
+- [ ] Generating dynamic di for pagination class,
+- [ ] Custom error handler mechanism,
+- [ ] Authentication, authorization,
 - [ ] Partial searching method for MongoDB because it doesn't provide efficient way
 - [ ] Rate limiting, caching
 - [ ] Handling file uploads through API endpoints.
 - [ ] Understanding CORS and configuring it for your API.
 - [ ] Support for multiple languages and locales.
-
-
