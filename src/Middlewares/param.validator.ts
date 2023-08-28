@@ -52,7 +52,8 @@ export const  sortParamChecker = async (req: Request, res: Response, next:NextFu
 
 export const orderByParamChecker =  async (req:Request,res:Response,next:NextFunction)=>{
     console.log("inside orderby")
-    const sortOrder = req.query.orderby === 'desc' ? -1 : 1;
+        const sortOrder = req.query.orderby === 'desc' ? -1 : 1;
+
 
 
     if(sortOrder){

@@ -32,7 +32,7 @@
 - [x] _Using Repository-MVC pattern,_
 - [x] _Exact string match search like `?search=text%20most`,_
 - [x] _Data filtering like `?filter=likes:2-10`,_
-- [x] _Pagination `?pi=2`,_
+- [x] _Pagination `posts/pagination?pi=2`,_
 - [x] _Sorting for fields `?sort=likes&orderby=asc` | `?sort=title&orderby=desc` | `sort=author&orderby=desc`,_
 - [x] _Query combination-query pool;_
 
@@ -74,8 +74,6 @@ _pagination_
 |get all posts|create a post|
 |---|---|
 |![get all posts image](./ss/ss_getall.png)|![create a post image](./ss/ss_create.png)|
-
-
 
 
 ### Further topics

@@ -39,10 +39,14 @@ class PostController {
     getAPost = async (req: Request, res: Response) => { // when the async task is finished fires a callback function
         const id = req.params.id // extract id from the link
         const post = await this.service.getPost(id)
-        if (!post) {
+        if (post == '404') {
+            console.log("the post is ",post);
             return res.status(404).json({ message: 'Post not found' });
+        }else{
+            console.log("post is not undefined")
+            res.status(200).send(post)
+
         }
-        res.send(post)
     }
 
     //add post controller
@@ -52,7 +56,8 @@ class PostController {
             title: req.body.title,
             author: req.body.author,
             description: req.body.description,
-            published: req.body.published
+            published: req.body.published,
+            likes: req.body.likes
         }
         //validating the request
         const { error, value } = PostschemaValidate.validate(data)
@@ -100,7 +105,7 @@ class PostController {
         }
         return res.status(200).json(answer)
     }
-    //update post
+    //update post with patch
     patchPost = async (req: Request, res: Response) => {
         const id = req.params.id
         const post = await this.service.patchUpdate(id, req.body)
